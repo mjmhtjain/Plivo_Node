@@ -1,23 +1,80 @@
 //Require the dev-dependencies
-let chai = require('chai');
-let chaiHttp = require('chai-http');
-let server = require('../index');
-let should = chai.should();
+const { mocha, describe, beforeEach, afterEach, it } = require('mocha');
+const chai = require('chai');
+const { expect } = require('chai');
+const chaiHttp = require('chai-http');
+const hapiServer = require('../src/server');
+const should = chai.should();
+
 
 chai.use(chaiHttp);
-describe('Testing APIs', function () {
+describe('Testing Server APIs', function () {
+    let server;
 
-    it(`tests API '/' and expects it to return 'Test API'`, async () => {
-        // these must match the route you want to test
-        const injectOptions = {
-            method: 'GET',
+    beforeEach(async () => {
+        server = await hapiServer.init();
+    });
+
+    afterEach(async () => {
+        await server.stop();
+    });
+
+    it(' / responds with 200', async () => {
+        const res = await server.inject({
+            method: 'get',
             url: '/'
-        }
+        });
 
-        // wait for the response and the request to finish
-        const response = await server.inject(injectOptions)
+        expect(res.statusCode).to.equal(200);
+        expect(res.payload).to.equal(`Test API`);
+    });
 
-        // alright, set your expectations :)
-        expect(response.statusCode).to.equal(404)
+    describe(`tests for '/add' API`, function(){
+
+        it(` sends valid input and expects response with 200`, async () => {
+        
+        });
+    
+        it(` sends invalid input and expects response with 500 `, async () => {
+            
+        });
+
+        it(` sends valid input with duplicate email param and expects response with 500 `, async () => {
+            
+        });
+
     })
+
+    describe(`tests for '/edit' API`, function(){
+
+        it(` sends valid input and expects response with 200 `, async () => {
+        
+        });
+    
+        it(` sends invalid input and expects response with 200 `, async () => {
+            
+        });
+    
+        it(` sends input where _id doesnt exist and expects response 500 `, async () => {
+            
+        });
+
+    })
+
+    describe(`tests for '/delete' API`, function(){
+
+        it(` sends valid input and expects response 200 `, async () => {
+        
+        });
+    
+        it(` sends invalid input and expects response 500 `, async () => {
+            
+        });
+
+        it(` sends valid input wherere email doesn't exist and expects response 500 `, async () => {
+            
+        });
+
+    })
+   
 });
