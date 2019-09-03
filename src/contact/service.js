@@ -1,11 +1,9 @@
 const mongo = require('../db');
+const contactModel = require('./model');
 
 const addContact = (req, res) => {
-    return mongo.connect()
-        .then(db => {
-            return db.collection("contact")
-                .insertOne(req.payload);
-        })
+
+    return contactModel.addContact(req.payload)
         .then(result => {
             let resObject = {
                 insertedObjects: result.ops,
@@ -14,8 +12,9 @@ const addContact = (req, res) => {
             return res.response(resObject);
         })
         .catch(err => {
-            console.log(`Encountered some error : ${err}`);
-            return err;
+            let message = `Encountered some error : ${err}`;
+            console.log(message);
+            return message;
         })
 }
 

@@ -31,8 +31,25 @@ describe('Testing Server APIs', function () {
 
     describe(`tests for '/add' API`, function(){
 
-        it(` sends valid input and expects response with 200`, async () => {
-        
+        it(` sends valid input and expects response with 200 `, async () => {
+            
+            let givenPayload = {
+                "email": "email@email.com",
+                "name": "a",
+                "phNumber": "1313131121"
+            }
+
+            const res = await server.inject({
+                method: 'post',
+                url: '/add',
+                payload: givenPayload
+            });
+    
+            expect(res.statusCode).to.equal(200);
+            let parsedResponse = JSON.parse(res.payload);
+            expect(parsedResponse.insertedObjects).to.be.not.null;
+            expect(parsedResponse.insertedObjects[0]).to.be.not.null;
+            expect(parsedResponse.count).to.be.greaterThan(0);
         });
     
         it(` sends invalid input and expects response with 500 `, async () => {
