@@ -1,15 +1,39 @@
 const mongo = require('../db');
-const contactModel = require('./model');
+const dao = require('./dao');
+const { Response, ErrorResponse } = require('../common');
 
 const addContact = (req, res) => {
+    let responseObj = undefined;
 
-    return contactModel.addContact(req.payload)
+    return dao.findContactByEmail(req.payload.email)
         .then(result => {
-            let resObject = {
-                insertedObjects: result.ops,
-                count: result.insertedCount
-            };
-            return res.response(resObject);
+
+            if (result && result.length > 0) {
+                responseObj = new ErrorResponse(new Error(), "Email already exists!!");
+                return res.response(responseObj);
+            }
+
+            return dao.addContact(req.payload)
+                .then(result => {
+                    responseObj = new Response(result.ops)
+                    return res.response(responseObj);
+                })
+
+        })
+        .catch(err => {
+            let message = `Encountered some error : ${err}`;
+            console.log(message);
+            return message;
+        })
+
+}
+
+const findContactByEmail = (req, res) => {
+
+    return dao.findContactByEmail()
+        .then(result => {
+            const responseObj = new Response(result.ops)
+            return res.response(responseObj);
         })
         .catch(err => {
             let message = `Encountered some error : ${err}`;
@@ -19,5 +43,6 @@ const addContact = (req, res) => {
 }
 
 module.exports = {
-    addContact
+    addContact,
+    findContactByEmail
 }

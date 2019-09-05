@@ -1,6 +1,6 @@
 const service = require('./service');
 const Joi = require('@hapi/joi');
-const contactModel = require('./model');
+const contactModel = require('./dao');
 
 const routes = [
     {
