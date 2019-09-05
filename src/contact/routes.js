@@ -1,6 +1,5 @@
 const service = require('./service');
 const Joi = require('@hapi/joi');
-const contactModel = require('./dao');
 
 const routes = [
     {
@@ -58,7 +57,7 @@ const routes = [
         path: '/searchByEmail',
         handler: (request, h) => {
 
-            return 'Hello World!';
+            return service.findContactByEmail(request, h);
         }
     }
 ];
