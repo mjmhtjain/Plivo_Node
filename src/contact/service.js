@@ -30,13 +30,13 @@ const findContactByEmail = async (req, res) => {
     let responseObj = undefined;
 
     try {
-        let result = await dao.findContactByEmail(req.param.email);
+        let result = await dao.findContactByEmail(req.query.email);
 
         responseObj = new Response(result)
         return res.response(responseObj);
     } catch (error) {
 
-        let message = `Encountered some error : ${err}`;
+        let message = `Encountered some error : ${error}`;
         console.log(message);
         return message;
     }

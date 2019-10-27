@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plivo-api-deployment
+spec:
+  selector:
+    matchLabels:
+      component: plivo-api-deployment
+  template:
+    metadata:
+      labels:
+        component: plivo-api-deployment
+    spec:
+      containers:
+        - name: plivo-api-deployment
+          image: mjmhtjain/plivo-api-deployment
+          env:
+            - name: MONGO_HOST
+              value: "azurecosmosdbplivo.documents.azure.com"
+            - name: MONGO_PORT
+              value: "10255"
+            - name: MONGO_USER
+              value: "azurecosmosdbplivo"
+            - name: MONGO_PASSWORD
+              value: "8Dr1Uotxi4d8GrGtckrGpO1NJEylw6Wl6a3NuJxRSoncXOBc16EMteR2ob929hx6lIV775VS2QM0ET23Wh5waw=="
+            - name: MONGO_DB
+              value: "admin"
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 3000

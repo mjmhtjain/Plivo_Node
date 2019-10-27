@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  plivo_node:
+    image: mjain36/plivo_node
+    build: .
+    ports:
+      - 3000:3000
+    volumes:
+      - /usr/src/app/node_modules
+      - ./:/usr/src/app
+    environment:
+      MONGO_HOST: azurecosmosdbplivo.documents.azure.com
+      MONGO_PORT: 10255
+      MONGO_DB: admin
+      MONGO_USER: azurecosmosdbplivo
+      MONGO_PASSWORD: 8Dr1Uotxi4d8GrGtckrGpO1NJEylw6Wl6a3NuJxRSoncXOBc16EMteR2ob929hx6lIV775VS2QM0ET23Wh5waw==
